@@ -26,9 +26,9 @@ export class UserService {
       },
     });
 
-    const userAddress = await this.createUserAddress(user.id, dto.endereco);
+    dto.endereco.map((endereco) => this.createUserAddress(user.id, endereco));
 
-    return { user, userAddress };
+    return user;
   }
   catch(error) {
     if (error instanceof PrismaClientKnownRequestError) {
@@ -80,8 +80,6 @@ export class UserService {
         userId: id,
       },
     });
-
-    console.log('====> user address', userAddress);
 
     return userAddress;
   }

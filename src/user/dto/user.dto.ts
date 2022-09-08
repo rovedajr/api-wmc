@@ -20,5 +20,5 @@ export class UserDto {
   aniversario: string;
 
   @IsNotEmpty()
-  endereco: Address;
+  endereco: Address[];
 }
