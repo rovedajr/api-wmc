@@ -1,4 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Prisma, User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserDto } from './dto';
@@ -92,5 +93,11 @@ export class UserService {
       data: { ...dto },
     });
     return user;
+  }
+
+  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
+    return await this.prisma.user.delete({
+      where,
+    });
   }
 }

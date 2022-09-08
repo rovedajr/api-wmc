@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { AddressService } from 'src/address/address.service';
 import { UpdateAdressDto } from 'src/address/dto/update-adress.dto';
 import { UserDto } from '../user/dto';
@@ -49,5 +51,10 @@ export class UserController {
     @Body() dto: UpdateAdressDto,
   ) {
     return this.adressService.editUserAdress(id, dto);
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return this.userService.deleteUser({ id });
   }
 }
