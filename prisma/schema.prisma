@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum taxPayer {
+  FISICA
+  JURIDICA
+}
+
+enum addresType {
+  RESIDENCIAL
+  COMERCIAL
+}
+
+
+model User {
+id             Int @id @default(autoincrement())
+nome           String   @db.VarChar(150) @unique
+identificador  String @db.VarChar(14)
+tipo           taxPayer @default(FISICA)
+aniversario    DateTime @db.Date
+createdAt      DateTime @default(now()) @map("created_at")
+updatedAt      DateTime @default(now()) @map("updated_at")
+deleted        Boolean @default(false)
+
+endereco Address[]
+
+@@map("users")
+}
+
+model Address {
+id            Int @id @default(autoincrement())
+logradouro    String
+numero        Int
+bairro        String
+complemento   String? 
+cidade        String
+uf            String @db.VarChar(2)
+tipo          addresType
+cep           String @db.VarChar(9)
+userId Int
+user User @relation(fields: [userId], references: [id])
+
+
+@@map("addresses")
+
+}
