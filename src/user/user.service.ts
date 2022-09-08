@@ -2,28 +2,37 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserDto } from './dto';
+import { UpdateUSerDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
   async createUSer(dto: UserDto) {
-    try {
-      const user = await this.prisma.user.create({
-        data: {
-          nome: dto.nome,
-          identificador: dto.identificador,
-          tipo: dto.tipo,
-          aniversario: dto.aniversario,
-        },
-        select: {
-          id: true,
-        },
-      });
-      return user;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new ForbiddenException('User already registered');
-      }
+    const user = await this.prisma.user.create({
+      data: {
+        nome: dto.nome,
+        identificador: dto.identificador,
+        tipo: dto.tipo,
+        aniversario: dto.aniversario,
+      },
+      select: {
+        id: true,
+        nome: true,
+        identificador: true,
+        endereco: true,
+        tipo: true,
+        aniversario: true,
+        createdAt: false,
+      },
+    });
+
+    const userAddress = await this.createUserAddress(user.id, dto.endereco);
+
+    return { user, userAddress };
+  }
+  catch(error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      throw new ForbiddenException('User already registered');
     }
   }
 
@@ -40,7 +49,7 @@ export class UserService {
     });
   }
 
-  async findOne(id) {
+  async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -55,6 +64,35 @@ export class UserService {
       },
     });
 
+    return user;
+  }
+
+  async createUserAddress(id, endereco) {
+    const userAddress = await this.prisma.address.create({
+      data: {
+        bairro: endereco.bairro,
+        cep: endereco.cep,
+        cidade: endereco.cidade,
+        logradouro: endereco.logradouro,
+        numero: endereco.numero,
+        tipo: endereco.tipo,
+        uf: endereco.uf,
+        userId: id,
+      },
+    });
+
+    console.log('====> user address', userAddress);
+
+    return userAddress;
+  }
+
+  async editUser(id: number, dto: UpdateUSerDto) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: { ...dto },
+    });
     return user;
   }
 }

@@ -22,14 +22,3 @@ export class UserDto {
   @IsNotEmpty()
   endereco: Address;
 }
-
-// model User {
-//   id             Int @id @default(autoincrement())
-//   nome           String   @db.VarChar(150)
-//   identificador  String @db.VarChar(14)
-//   tipo           taxPayer @default(FISICA)
-//   aniversario    DateTime @db.Date
-//   endereco       Address[]
-//   createdAt      DateTime @default(now()) @map("created_at")
-//   updatedAt      DateTime @default(now()) @map("updated_at")
-//   }

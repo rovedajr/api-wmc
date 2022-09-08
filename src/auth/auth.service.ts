@@ -18,8 +18,6 @@ export class AuthService {
       },
     });
 
-    console.log(user);
-
     //save user
 
     //return user saved
