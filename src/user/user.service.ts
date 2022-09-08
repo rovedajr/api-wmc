@@ -95,9 +95,9 @@ export class UserService {
     return user;
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
+  async deleteUser(id): Promise<User> {
     return await this.prisma.user.delete({
-      where,
+      where: { id: id },
     });
   }
 }
