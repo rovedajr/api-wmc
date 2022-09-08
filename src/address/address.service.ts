@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { addresType } from '@prisma/client';
-import { identity } from 'rxjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateAdressDto } from './dto/update-adress.dto';
 
@@ -9,11 +7,8 @@ export class AddressService {
   constructor(private prisma: PrismaService) {}
 
   async editUserAdress(userId: number, dto: UpdateAdressDto) {
-    const userAdress = await this.prisma.user.findFirst({
-      where: { id: userId },
-    });
     const adress = await this.prisma.address.update({
-      where: { id: userAdress.id },
+      where: { id: userId },
       data: {
         bairro: dto.bairro,
         cep: dto.cep,
