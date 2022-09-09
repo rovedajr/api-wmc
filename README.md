@@ -16,7 +16,7 @@ $ docker compose up dev-db -d
 $ npm install
 
 # Create the tables:
-$ npx prisma migrate dev
+$ npx prisma migrate dev --name init
 ```
 
 ## Running the app
