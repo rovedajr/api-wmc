@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "2eb8f3de-f29a-458d-a92a-9286f3af914e",
+		"name": "user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user creation",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var current_timestamp = new Date();",
+							"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"nome\": \"Mr. Spock\",\n  \"identificador\": \"37582930566\",\n  \"tipo\": \"FISICA\",\n  \"aniversario\": \"1964-12-12\",\n  \"endereco\": \n      [\n          {\"logradouro\": \"Rua Dezessete\",\n          \"numero\": 305, \n          \"bairro\": \"Loteamento Nosso Lar\", \n          \"cidade\": \"Araxá\", \n          \"uf\":\"MG\", \n          \"tipo\": \"RESIDENCIAL\",\n           \"cep\": \"38181368\"\n           },\n          {\"logradouro\": \"Avenida Perimetral\",\n          \"numero\": 100, \n          \"bairro\": \"Jardim Candidés\", \n          \"cidade\": \"Divinópolis\", \n          \"uf\":\"MG\", \n          \"tipo\": \"COMERCIAL\",\n           \"cep\": \"35502321\"\n           }\n      ] \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/user/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get specific user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/user/3",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit users",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"nome\": \"James Tiberius Kirk\",\n  \"identificador\": \"893449084932\",\n  \"tipo\": \"FISICA\",\n  \"aniversario\": \"1983-09-08\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit address",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n    {\n     \"logradouro\": \"Rua Sete de Setembro 463\",\n    \"numero\": 69,\n    \"bairro\": \"Centro\",\n    \"cidade\": \"Caçapava do Sul\",\n    \"uf\":\"RS\",\n    \"tipo\": \"COMERCIAL\",\n    \"complemento\": \"Defronte à praça da matriz\",\n    \"cep\": \"96570970\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user/adress/5",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"adress",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n    {\"logradouro\": \"Estrada das hortaliças\",\n    \"numero\": 1,\n    \"bairro\": \"Parque das maravilhas\",\n    \"cidade\": \"Milagres\",\n    \"uf\":\"ES\",\n    \"tipo\":\n    \"RESIDENCIAL\",\n    \"cep\": \"34543000\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

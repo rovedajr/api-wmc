@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { Prisma, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserDto } from './dto';
@@ -9,21 +9,22 @@ import { UpdateUSerDto } from './dto/update-user.dto';
 export class UserService {
   constructor(private prisma: PrismaService) {}
   async createUSer(dto: UserDto) {
+    const dataAniversario = new Date(dto.aniversario);
+    if (dataAniversario >= new Date()) {
+      throw new ForbiddenException(
+        '"Aniversário" cannot be greater than the current date',
+      );
+    }
+
     const user = await this.prisma.user.create({
       data: {
         nome: dto.nome,
         identificador: dto.identificador,
         tipo: dto.tipo,
-        aniversario: dto.aniversario,
+        aniversario: new Date(dto.aniversario),
       },
       select: {
         id: true,
-        nome: true,
-        identificador: true,
-        endereco: true,
-        tipo: true,
-        aniversario: true,
-        createdAt: false,
       },
     });
 
@@ -90,7 +91,12 @@ export class UserService {
       where: {
         id: id,
       },
-      data: { ...dto },
+      data: {
+        nome: dto.nome,
+        identificador: dto.identificador,
+        tipo: dto.tipo,
+        aniversario: new Date(dto.aniversario),
+      },
     });
     return user;
   }

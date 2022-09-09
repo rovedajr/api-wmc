@@ -8,13 +8,14 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 import { AddressService } from 'src/address/address.service';
 import { UpdateAdressDto } from 'src/address/dto/update-adress.dto';
 import { UserDto } from '../user/dto';
 import { UpdateUSerDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
+@ApiTags('users')
 @Controller('user')
 export class UserController {
   constructor(
